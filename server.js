@@ -54,7 +54,9 @@ io.sockets.on('connection', // < Name, then callback function
 			console.log("Received: 'chatmessage' " + data);
 			
 			// Send it to all of the clients
-			socket.broadcast.emit('chatmessage', data);
+			//socket.broadcast.emit('chatmessage', data);
+
+			io.sockets.emit('chatmessage', data);
 		});
 		
 		
