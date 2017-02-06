@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="shortcut icon" href="">
+		<link href="css/simplechat.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Pattaya" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+		<script src='js/simplechat.js' type='text/javascript'></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+
+		
+			// create socket connection
+			var socket = io.connect();
+			var username = "You"
+			;
+			
+			// listening for an event
+			// when name happens, do function
+			// gives feedback when connection is established
+			socket.on('connect', function() {
+				console.log("Connected");
+			});
+
+			// Receive from any event - this is received from the server's broadcast.emit
+			// Where message is
+			socket.on('chatmessage', function (data) {
+				console.log(data);
+ 				var dataString = '<p>' + "Guest: " + data + '</p>';
+ 				//document.getElementById('messages').innerHTML += dataString;
+ 				document.getElementById('messages').innerHTML = 
+ 				 "" + document.getElementById('messages').innerHTML + dataString;
+			});
+			
+			var sendmessage = function(message) {
+				//print to browser console the event that is happening
+				console.log("chatmessage: " + message);
+				// sending an event
+
+				//emit this event to server
+				socket.emit('chatmessage', message);
+
+				//clear the input value after submit is clicked
+				document.getElementById('message').value="";
+
+				var dataString = '<p>' + username + ": " + message + '</p>';
+ 				//document.getElementById('messages').innerHTML += dataString;
+ 				document.getElementById('messages').innerHTML =  
+				 "" + document.getElementById('messages').innerHTML + dataString;
+
+			};
+
+			function inputName(uname){
+				username = uname;
+			}
+
+			function myMessage(message){
+				//var dataString = '<p>' + "Name: " + message + '</p>';
+ 				//document.getElementById('messages').innerHTML += dataString;
+			}
+
+
+
+	
+		</script>	
+
+		<style>
+			p{
+				margin:.5em 0;
+			}
+		</style>
+	</head>
+ <body>
+ 	<header>
+ 		Let's Chat!
+ 	</header>
+ 	<div id="container">
+
+ 		<div id='inputname'>
+		<input type="text" id="name" placeholder="Enter Your Name Here" name="message">
+		<input type="submit" value="Submit" onclick="inputName(document.getElementById('name').value);hide_div('inputname')">
+		</div>
+		<div id="messages">
+		</div>
+	 	<div id='inputtext'>
+		<input type="text" id="message" placeholder="Send a message..." name="name" >
+		<input type="submit" value="Submit" onclick="sendmessage(document.getElementById('message').value);myMessage(document.getElementById('message').value);myMessage;updateScroll('messages')">
+		</div>
+
+	</div>
+
+	<!-- <footer>
+	ATLS 3519: Real Time Web <br>
+	University Of Colorado Boulder
+	</footer> -->
+
+ </body>
+</html>
+
+
+
+
+			<!-- 
+			//STUFF THAT DIDN'T WORK 
+
+			
+
+			// var inputname = function(namedata) {
+			// 	//print to browser console the event that is happening
+			// 	console.log("User's Name: " + namedata);
+			// 	// sending an event
+
+			// 	//emit this event to server
+			// 	socket.emit('chatmessage', namedata);
+
+
+
+			// 	//clear the input value after submit is clicked
+			// 	//document.getElementById('message').value="";
+			// };
+
+			//Name Stuff
+
+			// socket.on('name', function (data) {
+			// 	console.log(data);
+ 			// 		document.getElementById('username').value = data;
+			// });
+
+			//----------END NAME STUFF 
+			-->
